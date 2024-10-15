@@ -17,7 +17,7 @@ export default function Listtodo() {
 
   return (
     <div
-      className="d-flex flex-column align-items-center justify-content-center mt-5"
+      className="d-flex flex-column align-items-center justify-content-center mt-4"
       style={{ width: "100%" }}
     >
       <h3 className="w-50 text-start">

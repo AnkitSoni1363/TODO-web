@@ -70,4 +70,32 @@ router.delete("/deletetodo/:id", fetchuser, async (req, res) => {
   }
 });
 
+router.get("/search", fetchuser, async (req, res) => {
+  try {
+    // Access the query parameter 'text'
+    const text = req.query.text;
+
+    if (!text || text.length <= 0) {
+      return res.status(404).json({ msg: "Enter at least 1 character" });
+    }
+
+    const user = req.user;
+
+    // Perform a case-insensitive search using a regular expression
+    const notes = await Note.find({
+      user: user,
+      todo: { $regex: text, $options: "i" }, // 'i' makes it case-insensitive
+    });
+
+    if (notes.length === 0) {
+      return res.status(404).json({ msg: "No todos found" });
+    }
+
+    return res.status(200).json(notes);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ msg: "Internal server error" });
+  }
+});
+
 module.exports = router;

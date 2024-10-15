@@ -50,9 +50,30 @@ const Notesstate = (props) => {
     setNotes(newnotes);
     getnotes();
   };
+
+  const searchnote = async (text) => {
+    const response = await fetch(`${host}/api/notes/search?text=${text}`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
+
+    const searchResponse = await response.json();
+    console.log(searchResponse);
+
+    if (response.ok) {
+      // Wrap searchResponse in the same structure as the normal notes state
+      setNotes({ notes: searchResponse }); // Consistent structure with getnotes
+    } else {
+      console.log("No todos found");
+    }
+  };
+
   return (
     <notecontext.Provider
-      value={{ notes, setNotes, addnote, deletenote, getnotes }}
+      value={{ notes, setNotes, addnote, deletenote, getnotes, searchnote }}
     >
       {props.children}
     </notecontext.Provider>
