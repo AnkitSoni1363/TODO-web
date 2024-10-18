@@ -1,2 +1,2 @@
-# Getting Started with Create React App
+# TODO - web
 This is used to store code of TODO website.
